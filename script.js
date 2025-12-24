@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+﻿document.addEventListener('DOMContentLoaded', () => {
     const greetingContainer = document.getElementById('greeting-container');
     const videoContainer = document.getElementById('video-container');
     const greeting = document.getElementById('greeting');
@@ -45,29 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Start Christmas lights ONLY when video appears
                 startChristmasLights();
 
-                // Force video to play with sound from the start
-                video.volume = 1.0; // Maximum volume
-                video.muted = false; // Never muted
-
-                // Force play with sound - no fallback to muted
-                const playPromise = video.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        console.log('🎵 Video playing with sound from start!');
-                        video.muted = false; // Ensure never muted
-                        video.volume = 1.0; // Keep maximum volume
-                    }).catch(e => {
-                        console.log('Forcing audio play despite browser restrictions:', e);
-                        // Force unmuted even if browser complains
-                        video.muted = false;
-                        video.volume = 1.0;
-                        // Try again after a short delay
-                        setTimeout(() => {
-                            video.play();
-                            video.muted = false;
-                        }, 100);
-                    });
-                }
+                // Enhanced video autoplay system
+                setupVideoAutoplay();
             }, 1000);
         }, 500);
     }, 4000);
@@ -86,17 +65,97 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('🎬 Video started! Time for troll messages!');
     });
 
-    // Simplified video click - ensure volume stays high
+    // Enhanced video click - ensure volume and play
     video.addEventListener('click', () => {
         video.muted = false;
         video.volume = 1.0;
-        console.log('🔊 Audio reinforced on click!');
+        if (video.paused) {
+            video.play().then(() => {
+                console.log('🎵 Vídeo reproduzindo com som!');
+            }).catch(e => {
+                console.log('Erro ao reproduzir:', e);
+            });
+        }
+        console.log('🔊 Áudio reforçado no click!');
     });
 });
 
-function createCelebrationBurst() {
-    // Performance optimization: disabled for better performance
-    return;
+// Enhanced video autoplay system
+function setupVideoAutoplay() {
+    const video = document.getElementById('christmas-video');
+    if (!video) {
+        console.error('❌ Vídeo não encontrado!');
+        return;
+    }
+
+    console.log('🎬 Configurando autoplay do vídeo...');
+    
+    // Setup video properties - mais agressivo
+    video.muted = true;
+    video.volume = 1.0;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.preload = 'auto';
+    video.setAttribute('playsinline', '');
+    video.setAttribute('autoplay', '');
+    video.setAttribute('muted', '');
+    video.setAttribute('preload', 'auto');
+    
+    // Forçar load do vídeo
+    video.load();
+    
+    // Try to play immediately and repeatedly
+    const forcePlay = () => {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                console.log('✅ Vídeo reproduzindo!');
+            }).catch(e => {
+                console.log('⚠️ Tentando novamente...', e.message);
+                setTimeout(forcePlay, 100);
+            });
+        }
+    };
+    
+    // Múltiplas tentativas de play em intervalos diferentes
+    setTimeout(forcePlay, 0);
+    setTimeout(forcePlay, 100);
+    setTimeout(forcePlay, 300);
+    setTimeout(forcePlay, 500);
+    setTimeout(forcePlay, 1000);
+    setTimeout(forcePlay, 1500);
+    setTimeout(forcePlay, 2000);
+    
+    // Add event listeners
+    video.addEventListener('loadeddata', forcePlay);
+    video.addEventListener('canplay', forcePlay);
+    video.addEventListener('canplaythrough', forcePlay);
+    video.addEventListener('loadedmetadata', forcePlay);
+    
+    // Unmute on first user interaction
+    const unmuteVideo = () => {
+        video.muted = false;
+        video.volume = 1.0;
+        console.log('🔊 Áudio ativado!');
+        forcePlay();
+    };
+    
+    document.addEventListener('click', unmuteVideo, { once: true });
+    document.addEventListener('touchstart', unmuteVideo, { once: true });
+    document.addEventListener('keydown', unmuteVideo, { once: true });
+    
+    // Fallback: forçar play a cada 2 segundos até o vídeo começar
+    const checkInterval = setInterval(() => {
+        if (video.paused) {
+            console.log('🔄 Vídeo pausado, tentando forçar play...');
+            forcePlay();
+        } else {
+            clearInterval(checkInterval);
+        }
+    }, 2000);
+    
+    // Limpar o intervalo após 30 segundos
+    setTimeout(() => clearInterval(checkInterval), 30000);
 }
 
 function createHolographicParticle(centerX, centerY, layer) {
@@ -130,28 +189,6 @@ function startFloatingMessages() {
     // Performance optimization: disabled floating messages
     return;
 }
-
-"🔔 Tocou o sino… alguém bateu na panela pedindo açúcar. 🔔",
-    "🎄 Árvore de Natal montada: 5 minutos. Desmontar: março. 🎄",
-    "✨ Espírito natalino ativado: só até acabar a rabanada. ✨",
-    "🎅 Noel riu 'Ho Ho Ho'. Eu ri de nervoso. 🎅",
-    "🎁 Meu presente favorito? Ficar em paz e longe de confusão. 🎁",
-    "🧦 Pendurei a meia… ganhei mais uma conta. Obrigado, Noel. 🧦",
-    "❄️ Sonho de Natal branco… mas o que vem é chuva de boletos. ❄️",
-
-    "💡 Pisca-pisca do vizinho piscando mais que minha paciência. 💡",
-    "🧁 Ceia de Natal: comi pouco… só três pratos para testar. 🧁",
-
-    "🎄 O Natal só começa quando alguém diz: ‘é pavê ou pacomê?’ 🎄",
-    "🎅 Se o Noel entrar pela minha chaminé, vai ter que limpar depois. 🎅",
-    "🎁 Lista de presentes atualizada: só quero dinheiro e paz. 🎁",
-
-    "✨ Natal: aquela época linda em que o cartão de crédito chora. ✨",
-    "🎉 O clima natalino chega… e meu descanso mental vai embora. 🎉"
-];
-
-// Container para mensagens flutuantes
-let messagesContainer;
 
 // Função para criar mensagens flutuantes (desabilitada para performance)
 function createFloatingMessagesSystem() {

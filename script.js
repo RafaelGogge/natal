@@ -72,12 +72,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
     }, 4000);
 
-    // Enhanced click effect on greeting
+    // Simple click effect on greeting
     greeting.addEventListener('click', () => {
         createClickBurst();
         greeting.style.animation = 'none';
         setTimeout(() => {
-            greeting.style.animation = 'holographicShift 2s ease infinite, spectacularPulse 1.5s ease-in-out infinite alternate, advancedTextGlow 3s linear infinite, magicalBounce 4s ease-in-out infinite';
+            greeting.style.animation = 'simpleColorShift 3s ease infinite, simplePulse 2s ease-in-out infinite alternate';
         }, 100);
     });
 
@@ -95,73 +95,18 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function createCelebrationBurst() {
-    // Create spectacular celebration effect with holographic particles
-    const greeting = document.getElementById('greeting');
-    const rect = greeting.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    
-    // Create multiple layers of particles
-    for (let layer = 0; layer < 3; layer++) {
-        for (let i = 0; i < 30; i++) {
-            createHolographicParticle(centerX, centerY, layer);
-        }
-    }
-    
-    // Add screen flash effect
-    createScreenFlash();
+    // Performance optimization: disabled for better performance
+    return;
 }
 
 function createHolographicParticle(centerX, centerY, layer) {
-    const particle = document.createElement('div');
-    const particles = ['✨', '⭐', '🌟', '💫', '🔆', '✦', '✧', '★'];
-    particle.textContent = particles[Math.floor(Math.random() * particles.length)];
-    
-    const angle = Math.random() * 360;
-    const distance = Math.random() * (200 + layer * 100) + 50;
-    const duration = 2000 + Math.random() * 1500;
-    
-    particle.style.position = 'fixed';
-    particle.style.left = centerX + 'px';
-    particle.style.top = centerY + 'px';
-    particle.style.fontSize = (15 + Math.random() * 20 + layer * 5) + 'px';
-    particle.style.color = ['#FFD700', '#FF4500', '#FF1493', '#8A2BE2', '#00BFFF', '#00FF7F'][Math.floor(Math.random() * 6)];
-    particle.style.pointerEvents = 'none';
-    particle.style.zIndex = '50';
-    particle.style.filter = `drop-shadow(0 0 ${10 + layer * 5}px currentColor) saturate(2) brightness(1.5)`;
-    particle.style.animation = `holographicBurst ${duration}ms ease-out forwards`;
-    particle.style.setProperty('--angle', angle + 'deg');
-    particle.style.setProperty('--distance', distance + 'px');
-    particle.style.setProperty('--layer', layer);
-    
-    document.body.appendChild(particle);
-    
-    setTimeout(() => {
-        if (document.body.contains(particle)) {
-            document.body.removeChild(particle);
-        }
-    }, duration);
+    // Performance optimization: disabled for better performance
+    return;
 }
 
 function createScreenFlash() {
-    const flash = document.createElement('div');
-    flash.style.position = 'fixed';
-    flash.style.top = '0';
-    flash.style.left = '0';
-    flash.style.width = '100vw';
-    flash.style.height = '100vh';
-    flash.style.background = 'radial-gradient(circle, rgba(255,215,0,0.4) 0%, rgba(255,105,180,0.2) 50%, transparent 100%)';
-    flash.style.pointerEvents = 'none';
-    flash.style.zIndex = '45';
-    flash.style.animation = 'screenFlash 800ms ease-out forwards';
-    
-    document.body.appendChild(flash);
-    
-    setTimeout(() => {
-        if (document.body.contains(flash)) {
-            document.body.removeChild(flash);
-        }
-    }, 800);
+    // Performance optimization: disabled for better performance
+    return;
 }
 
 function createExplosionEffect() {
@@ -170,42 +115,15 @@ function createExplosionEffect() {
 }
 
 function createClickBurst() {
-    // Create burst effect when greeting is clicked
+    // Simple lightweight click effect
     const greeting = document.getElementById('greeting');
     if (!greeting) return;
     
-    const rect = greeting.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    
-    // Create small burst of particles
-    for (let i = 0; i < 15; i++) {
-        const particle = document.createElement('div');
-        particle.textContent = ['✨', '⭐', '💫', '🌟'][Math.floor(Math.random() * 4)];
-        
-        const angle = (i / 15) * 360;
-        const distance = Math.random() * 100 + 30;
-        const duration = 1000 + Math.random() * 500;
-        
-        particle.style.position = 'fixed';
-        particle.style.left = centerX + 'px';
-        particle.style.top = centerY + 'px';
-        particle.style.fontSize = (12 + Math.random() * 8) + 'px';
-        particle.style.color = ['#FFD700', '#FF1493', '#00BFFF'][Math.floor(Math.random() * 3)];
-        particle.style.pointerEvents = 'none';
-        particle.style.zIndex = '55';
-        particle.style.animation = `clickParticleBurst ${duration}ms ease-out forwards`;
-        particle.style.setProperty('--angle', angle + 'deg');
-        particle.style.setProperty('--distance', distance + 'px');
-        
-        document.body.appendChild(particle);
-        
-        setTimeout(() => {
-            if (document.body.contains(particle)) {
-                document.body.removeChild(particle);
-            }
-        }, duration);
-    }
+    // Just a simple scale animation
+    greeting.style.transform = 'scale(1.1)';
+    setTimeout(() => {
+        greeting.style.transform = 'scale(1)';
+    }, 200);
 }
 
 function startFloatingMessages() {
